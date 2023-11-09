@@ -15,7 +15,7 @@ import store from "./Utils/store";
 import Cart from "./Components/Cart";
 import Search from "./Components/Search";
 
-const Grocery = lazy(() => import("./Components/Grocery"));
+const Help = lazy(() => import("./Components/Help"));
 
 const AppLayoutComponent = () => {
   const [user, setUser] = useState(null);
@@ -77,10 +77,10 @@ const appRouter = createBrowserRouter([
       },
 
       {
-        path: "/grocery",
+        path: "/Help",
         element: (
           <Suspense fallback={<Shimmer />}>
-            <Grocery />
+            <Help />
           </Suspense>
         ),
       },

@@ -52,7 +52,7 @@ const Header = () => {
 
               <li>
                 <Link
-                  to="/grocery"
+                  to="/Help"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium"
                 >
                   <IoMdHelpCircleOutline className="text-xl text-neutral-500" />{" "}
@@ -62,7 +62,7 @@ const Header = () => {
 
               <li>
                 <Link
-                  to="/grocery"
+                  to="/"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium"
                 >
                   <AiOutlineUser className="text-xl text-neutral-500" /> Sign In
