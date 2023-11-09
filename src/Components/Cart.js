@@ -25,12 +25,18 @@ const Cart = () => {
   }, 0);
 
   return (
-    <div className=" w-[90%] max-w-7xl my-0 mx-auto mt-6  mb-4 ">
+    <div className=" w-[90%] max-w-7xl my-0 mx-auto   mb-4 mt-28">
       {cartItems.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 h-screen mt-28">
-          <p className="text-lg font-medium">Your cart is empty</p>
-          <p>You can go to home page to view more restaurants</p>
-          <Link to={"/"} className="bg-black text-white p-2 px-4 rounded">
+        <div className="flex flex-col items-center gap-6 h-screen justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-lg font-bold text-neutral-700">
+              Your cart is empty
+            </p>
+            <p className="text-xs text-neutral-500">
+              You can go to home page to view more restaurants
+            </p>
+          </div>
+          <Link to={"/"} className="bg-orange-500 text-white p-2 px-4 ">
             SEE RESTAURANTS NEAR YOU
           </Link>
         </div>
@@ -38,7 +44,7 @@ const Cart = () => {
         <div className="flex flex-col gap-2 mt-4 md:w-9/12 m-auto  bg-slate-50 h-screen">
           <div className="flex justify-end">
             <button
-              className="bg-black text-white p-2 px-4 rounded w-32 "
+              className="bg-orange-400 text-white p-2 px-4 rounded w-32 "
               onClick={() => handleClearCart()}
             >
               Clear cart

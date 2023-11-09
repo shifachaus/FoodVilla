@@ -10,10 +10,13 @@ import { BiSolidOffer } from "react-icons/bi";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
+import { CgMenuRight } from "react-icons/cg";
+import { RxCross1 } from "react-icons/rx";
 
 const Header = () => {
   const [auth, setAuth] = useState(false);
   const { user } = useContext(UserContext);
+  const [showMenu, setShowMenu] = useState(false);
 
   const onlineStatus = useOnlineStatus();
 
@@ -29,33 +32,42 @@ const Header = () => {
               <img data-testid="logo" className="w-32" alt="logo" src={Logo} />
             </Link>
           </div>
-          <nav className="">
-            <ul className="flex gap-10">
-              {/* <p data-testid="online-status">{onlineStatus ? "🟢" : "🔴"}</p> */}
 
+          <span
+            className=" md:hidden cursor-pointer"
+            onClick={() => setShowMenu(true)}
+          >
+            <CgMenuRight className="text-xl text-neutral-500 " />
+          </span>
+
+          {/* DESKTOP */}
+          <nav className="hidden md:block">
+            <ul className="flex gap-10">
               <li>
                 <Link
                   to="/search"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <FiSearch className="text-xl text-neutral-500" /> Search
+                  <FiSearch className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Search
                 </Link>
               </li>
               <li>
                 <Link
                   to="/"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <BiSolidOffer className="text-xl text-neutral-500" /> Offers
+                  <BiSolidOffer className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Offers
                 </Link>
               </li>
 
               <li>
                 <Link
                   to="/Help"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <IoMdHelpCircleOutline className="text-xl text-neutral-500" />{" "}
+                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
                   Help
                 </Link>
               </li>
@@ -63,30 +75,88 @@ const Header = () => {
               <li>
                 <Link
                   to="/"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <AiOutlineUser className="text-xl text-neutral-500" /> Sign In
+                  <AiOutlineUser className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Sign In
                 </Link>
               </li>
               <Link
                 to="/cart"
-                className="relative flex gap-2 items-center text-neutral-700 text-md font-medium"
+                className="relative flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
               >
-                <BsCart2 className="text-xl text-neutral-500 " />
+                <BsCart2 className="text-xl text-neutral-500 hover:text-orange-500" />
                 <span data-testid="cart " className="absolute -top-3 left-2">
                   {cartItems?.length}{" "}
                 </span>
                 <span>Cart</span>
               </Link>
-              {/* <span className="p-10 font-bold text-red-900">{user?.name}</span>
-            <button
-              className="login"
-              onClick={() => {
-                setAuth(!auth);
-              }}
+            </ul>
+          </nav>
+
+          {/* MOBILE */}
+          <nav
+            className={`z-50 fixed inset-y-0 right-0 overflow-y-auto bg-white px-6 py-6  w-60 h-screen transition-transform   ${
+              showMenu ? "translate-x-1" : "translate-x-full"
+            } `}
+          >
+            <span
+              className=" md:hidden absolute right-9 top-8 cursor-pointer"
+              onClick={() => setShowMenu(false)}
             >
-              {auth ? "logout" : "Login"}
-            </button> */}
+              <RxCross1 className="text-xl text-neutral-500 " />
+            </span>
+            <ul className="flex flex-col gap-10 mt-16">
+              {/* <p data-testid="online-status">{onlineStatus ? "🟢" : "🔴"}</p> */}
+
+              <li className="cursor-pointer ">
+                <Link
+                  to="/search"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                >
+                  <FiSearch className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Search
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                >
+                  <BiSolidOffer className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Offers
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/Help"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                >
+                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Help
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                >
+                  <AiOutlineUser className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  Sign In
+                </Link>
+              </li>
+              <Link
+                to="/cart"
+                className="relative flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+              >
+                <BsCart2 className="text-xl text-neutral-500 hover:text-orange-500 " />
+                <span data-testid="cart " className="absolute -top-3 left-2">
+                  {cartItems?.length}{" "}
+                </span>
+                <span>Cart</span>
+              </Link>
             </ul>
           </nav>
         </div>
