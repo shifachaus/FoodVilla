@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 // import { LOGO__URL } from "../Utils/constants";
-import Logo from "../assets/img/foodvilla.png";
+import Logo from "../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
 import UserContext from "../Utils/UserContext";
@@ -29,7 +29,7 @@ const Header = () => {
         <div className=" flex justify-between items-center w-[90%] max-w-7xl mx-auto">
           <div className="logo__container">
             <Link to="/">
-              <img data-testid="logo" className="w-32" alt="logo" src={Logo} />
+              <img data-testid="logo" className="w-24" alt="logo" src={Logo} />
             </Link>
           </div>
 
