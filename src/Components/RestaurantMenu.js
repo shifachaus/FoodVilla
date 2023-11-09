@@ -33,6 +33,13 @@ const RestaurantMenu = () => {
 
   return (
     <div className=" w-[90%] max-w-4xl mt-28 mx-auto mb-6 ">
+      <Shimmer
+        box={2}
+        style="h-20 sm:h-40 md:h-56 lg:h-60  w-full mx-auto"
+        hide="block h-2"
+        heading="block h-3"
+        grid="sm:grid-cols-1 gap-6 md:grid-cols-2 "
+      />
       {resInfo === null && <Shimmer box={10} />}
       <div className="w-[90%] max-w-4xl  mx-auto mt-6 mb-6">
         <div className="py-2 flex justify-between  border-b-2 border-dashed ">

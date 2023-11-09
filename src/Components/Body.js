@@ -7,6 +7,7 @@ import UserContext from "../Utils/UserContext";
 import { FiSearch } from "react-icons/fi";
 import BannerContainer from "./BannerContainer";
 import FoodContainer from "./FoodContainer";
+import { SWIGGY_API_URL } from "../Utils/constants";
 
 const Body = () => {
   // Local State Variable - Super powerful variable
@@ -25,9 +26,7 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.0759837&lng=72.8776559&offset=15&sortBy=RELEVANCE&pageType=SEE_ALL&page_type=DESKTOP_SEE_ALL_LISTING"
-    );
+    const data = await fetch(SWIGGY_API_URL);
 
     const json = await data.json();
 
@@ -123,8 +122,9 @@ const Body = () => {
       {listOfRestaurants?.length === 0 ? (
         <Shimmer
           box={12}
-          style="h-20 sm:h-40 md:h-56 lg:h-60"
-          hide="block h-2.5"
+          heading="block h-3"
+          style="h-20 sm:h-40 md:h-56 lg:h-60  w-full mx-auto"
+          hide="block h-2"
           grid="sm:grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         />
       ) : (

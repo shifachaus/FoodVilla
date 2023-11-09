@@ -67,7 +67,8 @@ const FoodContainer = ({ foodList }) => {
         <div>
           <Shimmer
             box={6}
-            style="h-32 w-32 "
+            heading="hidden "
+            style="h-32 w-32 mx-auto"
             hide="hidden"
             grid="sm:grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
           />
