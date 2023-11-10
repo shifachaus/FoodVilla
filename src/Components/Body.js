@@ -4,10 +4,11 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
 import UserContext from "../Utils/UserContext";
-import { FiSearch } from "react-icons/fi";
+
 import BannerContainer from "./BannerContainer";
 import FoodContainer from "./FoodContainer";
 import { SWIGGY_API_URL } from "../Utils/constants";
+import Filters from "./Filters";
 
 const Body = () => {
   // Local State Variable - Super powerful variable
@@ -15,8 +16,6 @@ const Body = () => {
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [bannerList, setBannerList] = useState([]);
   const [foodList, setFoodList] = useState([]);
-
-  const [searchText, setSearchText] = useState("");
 
   const { user, setUser } = useContext(UserContext);
 
@@ -64,60 +63,14 @@ const Body = () => {
       <BannerContainer bannerList={bannerList} />
       <FoodContainer foodList={foodList} />
 
-      {/* Conditional Rendering */}
-
-      <div className="flex flex-col gap-4 mb-6 md:flex-row mt-4">
-        <div className="flex w-[90%] max-w-4xl mt-8 mx-auto ">
-          <input
-            type="text"
-            className="w-full  border-l border-t border-b border-neutral-300  cursor-pointer bg-white py-2 px-4   flex-grow outline-none bg-transparent"
-            placeholder="search for restaurants"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            data-testid="search-input"
-          />
-          <button
-            data-testid="search-btn"
-            className=" border-r border-t border-b   border-neutral-300  cursor-pointer py-2 px-2 "
-            onClick={() => {
-              //Filter the restaurant cards and update the UI
-              // searchText
-              const filteredList = listOfRestaurants?.filter((reataurant) => {
-                return reataurant?.info?.name
-                  .toLowerCase()
-                  .includes(searchText.toLowerCase());
-              });
-              setFilteredRestaurant(filteredList);
-            }}
-          >
-            <FiSearch className="text-xl text-neutral-500" />
-          </button>
-        </div>
-        {/* <button
-          onClick={() => {
-            const filteredList = listOfRestaurants.filter(
-              (res) => res?.info?.avgRating > 4
-            );
-            setFilteredRestaurant(filteredList);
-          }}
-          className=" bg-purple-500 border border-purple-300 cursor-pointer  py-2 w-44   hover:shadow-xl"
-        >
-          Top Rated Restaurants
-        </button> */}
-        {/* <div>
-          <label>User Name</label>
-          <input
-            type="text"
-            className=" ml-2  border-purple-300  cursor-pointer bg-white py-2 px-4  border flex-grow outline-none bg-transparent"
-            placeholder="search for restaurants"
-            value={user?.name}
-            onChange={(e) => setUser(e.target.value)}
-          />
-        </div> */}
-      </div>
-      <h2 className="font-bold text-xl sm:text-2xl mb-6">
+      <h2 className="font-extrabold text-xl sm:text-2xl mb-6">
         Restaurants with online food delivery in Mumbai
       </h2>
+
+      <Filters
+        setFilteredRestaurant={setFilteredRestaurant}
+        listOfRestaurants={listOfRestaurants}
+      />
 
       {listOfRestaurants?.length === 0 ? (
         <Shimmer
