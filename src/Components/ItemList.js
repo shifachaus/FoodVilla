@@ -37,7 +37,8 @@ const ItemList = ({ items }) => {
                 <img
                   src={CDN__URL + item?.card?.info?.imageId}
                   alt="image"
-                  className="w-full h-28  object-contain object-center  rounded-2xl py-2 "
+                  // className="w-full h-28  object-contain object-center  rounded-2xl py-2 "
+                  className="w-full h-28  object-cover object-center  rounded-md  "
                 />
               )}
               <div className="absolute left-1/2 transform -translate-x-1/2 bottom-1">
