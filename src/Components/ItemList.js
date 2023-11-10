@@ -12,7 +12,7 @@ const ItemList = ({ items }) => {
     dispatch(addItem(item));
   };
   return (
-    <div className="bg-slate-50 ">
+    <div className=" ">
       {items?.map((item) => {
         return (
           <div
@@ -21,27 +21,34 @@ const ItemList = ({ items }) => {
           >
             <div className="flex flex-col gap-2 mb-2 w-9/12">
               <p className="font-medium">{item?.card?.info?.name}</p>
-              <p>
+              <p className="text-sm  text-neutral-800">
                 ₹
                 {item?.card?.info?.price
                   ? item?.card?.info?.price / 100
                   : item?.card?.info?.defaultPrice / 100}
               </p>
-              <p>{item?.card?.info?.description}</p>
+              <p className="text-xs text-neutral-400">
+                {" "}
+                {item?.card?.info?.description}
+              </p>
             </div>
-            <div className="w-3/12 relative ">
-              <div className="absolute  bottom-3">
+            <div className="w-3/12 relative sm:my-4">
+              {item?.card?.info?.imageId && (
+                <img
+                  src={CDN__URL + item?.card?.info?.imageId}
+                  alt="image"
+                  className="w-full h-28  object-contain object-center  rounded-2xl py-2 "
+                />
+              )}
+              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-1">
                 <button
                   onClick={() => handleAddItem(item)}
-                  className="p-2 mx-10 rounded-lg bg-black text-white shadow-lg "
-                  data-testid ="add-btn"
+                  className="w-20 uppercase px-2 pt-2 pb-3 rounded bg-white text-green-600 font-medium text-xs"
+                  data-testid="add-btn"
                 >
-                  Add +
+                  Add
                 </button>
               </div>
-              {item?.card?.info?.imageId && (
-                <img src={CDN__URL + item?.card?.info?.imageId} alt="image" />
-              )}
             </div>
           </div>
         );

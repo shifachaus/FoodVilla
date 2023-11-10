@@ -53,7 +53,7 @@ const Body = () => {
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   return (
-    <main className="w-[90%] max-w-6xl mt-28 mx-auto mb-8 ">
+    <main className="w-[90%] max-w-6xl mt-28 mx-auto mb-10 ">
       {!onlineStatus && (
         <h3>
           Looks like you're offline!! please check your internet connection
