@@ -1,6 +1,8 @@
 import React from "react";
 import ItemList from "./ItemList";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import useRestaurantMenu from "../Utils/useRestaurantMenu";
+import { useParams } from "react-router-dom";
 
 const RestaurantCategory = ({
   data,
@@ -9,6 +11,12 @@ const RestaurantCategory = ({
   dataLength,
   index,
 }) => {
+  const { resId } = useParams();
+
+  const resInfo = useRestaurantMenu(resId);
+
+  // console.log(resInfo?.cards[0]?.card?.card?.info, "ITEMS", resId);
+
   //   console.log(data);
 
   function handleClick() {
@@ -33,7 +41,12 @@ const RestaurantCategory = ({
         </span>
       </div>
       {/* Body */}
-      {showItems && <ItemList items={data?.itemCards} />}
+      {showItems && (
+        <ItemList
+          items={data?.itemCards}
+          restaurantInfo={resInfo?.cards[0]?.card?.card?.info}
+        />
+      )}
     </div>
   );
 };

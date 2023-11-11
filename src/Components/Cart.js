@@ -6,7 +6,9 @@ import { CDN__URL } from "../Utils/constants";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.item);
-  // console.log(cartItems, "CART ITEMS ");
+  const restaurantData = useSelector((store) => store.cart.restaurant);
+  console.log(restaurantData, cartItems, "CART ITEMS ");
+
   const dispatch = useDispatch();
 
   const handleClearCart = () => {
@@ -22,12 +24,27 @@ const Cart = () => {
   };
 
   let total = cartItems?.reduce((acc, cur) => {
-    console.log(cur?.card?.info, "TOTAL");
-    return acc + (cur?.card?.info?.defaultPrice / 100) * cur.qty;
+    // console.log(cur, "TOTAL");
+    return acc + (cur?.price / 100) * cur.qty;
   }, 0);
 
   return (
-    <div className=" w-[90%] max-w-7xl my-0 mx-auto    mb-4 ">
+    <main className=" w-[90%] max-w-7xl my-0 mx-auto    mb-4 ">
+      {cartItems.length > 0 && (
+        <div className="flex items-center gap-2 mt-32 md:w-9/12 mx-auto">
+          <img
+            src={CDN__URL + restaurantData?.imageID}
+            alt="image"
+            className="w-20 h-14  object-cover object-center  rounded-md  "
+          />
+          <div>
+            <p className="font-medium text-md">{restaurantData?.resName}</p>
+            <p className="text-neutral-500 text-xs">
+              {restaurantData?.areaName}
+            </p>
+          </div>
+        </div>
+      )}
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center gap-6 h-screen justify-center">
           <div className="flex flex-col items-center gap-2">
@@ -43,38 +60,38 @@ const Cart = () => {
           </Link>
         </div>
       ) : (
-        <div className="flex flex-col md:grid md:grid-flow-col gap-6 md:w-9/12 mx-auto mt-32  h-screen">
+        <div className="flex flex-col md:grid md:grid-flow-col gap-6 md:w-9/12 mx-auto   h-screen">
           <div className="col-span-8">
             {cartItems?.map((item) => {
+              console.log(item);
               return (
                 <div
-                  key={item?.card?.info?.id}
+                  key={item?.id}
                   className="grid grid-cols-3 border-b-2 p-4 gap-4 items-center  "
                 >
-                  <div>
-                    <img
-                      src={CDN__URL + item?.card?.info?.imageId}
-                      alt="image"
-                      className="w-20 h-14  object-cover object-center  rounded-md  "
-                    />
-                    <p>{item?.card?.info?.name}</p>
-                  </div>
+                  <p className="text-neutral-600 text-sm">{item?.itemName}</p>
                   <div className="flex items-center justify-center  gap-4 ">
-                    <button className="" onClick={() => removeQty(item)}>
+                    <button
+                      className="  font-medium text-sm "
+                      onClick={() => removeQty(item)}
+                    >
                       -
                     </button>
-                    <span>{item?.qty}</span>
-                    <button className="" onClick={() => addQty(item)}>
+                    <span className="text-green-600  font-medium text-sm">
+                      {item?.qty}
+                    </span>
+                    <button
+                      className="text-green-600 font-medium"
+                      onClick={() => addQty(item)}
+                    >
                       +
                     </button>
                   </div>
 
-                  <p className="text-right">
+                  <p className="text-neutral-500 text-sm text-right">
                     {" "}
                     ₹
-                    {item?.card?.info?.price
-                      ? item?.card?.info?.price / 100
-                      : item?.card?.info?.defaultPrice / 100}
+                    {item?.price ? item?.price / 100 : item?.defaultPrice / 100}
                   </p>
                 </div>
               );
@@ -118,7 +135,7 @@ const Cart = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

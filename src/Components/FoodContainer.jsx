@@ -74,14 +74,16 @@ const FoodContainer = ({ foodList }) => {
           />
           <div ref={sliderRef} className="keen-slider flex gap-4 ">
             {foodList?.info?.map((item) => {
-              return <Banner height="md:h-48 h-32" item={item} />;
+              return (
+                <Banner key={item?.id} height="md:h-48 h-32" item={item} />
+              );
             })}
           </div>
         </div>
       ) : (
         <div ref={sliderRef} className="keen-slider flex gap-4 ">
           {foodList?.info?.map((item) => {
-            return <Banner height="md:h-48 h-32" item={item} />;
+            return <Banner key={item?.id} height="md:h-48 h-32" item={item} />;
           })}
         </div>
       )}

@@ -6,6 +6,8 @@ import RestaurantCategory from "./RestaurantCategory";
 import { useState } from "react";
 import { HiOutlineCurrencyRupee } from "react-icons/hi2";
 import { BiSolidStar } from "react-icons/bi";
+import Popup from "./Popup";
+import { useSelector } from "react-redux";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -31,7 +33,7 @@ const RestaurantMenu = () => {
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
 
-  console.log(categories, "categories", resInfo?.cards[0]?.card?.card?.info);
+  // console.log(categories, "categories", resInfo?.cards[0]?.card?.card?.info);
 
   return (
     <div className=" w-[90%] max-w-4xl mt-28 mx-auto mb-10 ">

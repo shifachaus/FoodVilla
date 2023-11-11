@@ -1,16 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { CDN__URL } from "../Utils/constants";
-import { useDispatch } from "react-redux";
-import { addItem } from "../Utils/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, addResInfo, showPopup } from "../Utils/cartSlice";
+import Popup from "./Popup";
+import { useParams } from "react-router-dom";
 
-const ItemList = ({ items }) => {
-  // console.log(items);
+const ItemList = ({ items, restaurantInfo }) => {
+  const { resId } = useParams();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const { show } = useSelector((store) => store.cart);
 
   const dispatch = useDispatch();
+  const restaurantData = useSelector((store) => store.cart.restaurant);
+  console.log(restaurantData, restaurantInfo, "ll");
+
+  // Assuming you have a state variable to track the previous resID
+  const [previousResID, setPreviousResID] = useState(null);
 
   const handleAddItem = (item) => {
-    dispatch(addItem(item));
+    console.log("restaurantData.id:", restaurantData?.id, resId);
+    setSelectedItem(item);
+
+    const data = {
+      resID: restaurantInfo?.id,
+      id: item?.id,
+      itemName: item?.name,
+      price: item?.price,
+      veg: item?.itemAttribute,
+    };
+
+    if (restaurantData?.id === undefined || restaurantData?.id === resId) {
+      console.log(
+        {
+          id: restaurantInfo?.id,
+          resName: restaurantInfo?.name,
+          areaName: restaurantInfo?.areaName,
+          imageID: restaurantInfo?.cloudinaryImageId,
+        },
+        "DATA"
+      );
+      dispatch(
+        addResInfo({
+          id: restaurantInfo?.id,
+          resName: restaurantInfo?.name,
+          areaName: restaurantInfo?.areaName,
+          imageID: restaurantInfo?.cloudinaryImageId,
+        })
+      );
+      // Update the previousResID
+      setPreviousResID(data.resID);
+
+      dispatch(addItem(data));
+    } else if (
+      restaurantData?.id !== undefined &&
+      restaurantData?.id !== resId
+    ) {
+      dispatch(showPopup(true));
+    }
   };
+
+  console.log(show);
+
   return (
     <div className=" ">
       {items?.map((item) => {
@@ -43,7 +93,7 @@ const ItemList = ({ items }) => {
               )}
               <div className="absolute left-1/2 transform -translate-x-1/2 bottom-1">
                 <button
-                  onClick={() => handleAddItem(item)}
+                  onClick={() => handleAddItem(item?.card?.info)}
                   className="w-20 uppercase px-2 pt-2 pb-3 rounded bg-white text-green-600 font-medium text-xs"
                   data-testid="add-btn"
                 >
@@ -54,6 +104,8 @@ const ItemList = ({ items }) => {
           </div>
         );
       })}
+
+      {show && <Popup item={selectedItem} restaurantInfo={restaurantInfo} />}
     </div>
   );
 };
