@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import useRestaurantMenu from "../Utils/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineCurrencyRupee } from "react-icons/hi2";
 import { BiSolidStar } from "react-icons/bi";
 import Popup from "./Popup";
@@ -11,29 +11,72 @@ import { useSelector } from "react-redux";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-
-  // Custom hook
   const resInfo = useRestaurantMenu(resId);
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const [showIndex, setShowIndex] = useState(null);
 
-  const category =
-    resInfo?.cards[3]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-      (c) =>
-        c.card?.["card"]?.["@type"] ===
-        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  // const categories =
+  //   resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+  //     (c) =>
+  //       c.card?.["card"]?.["@type"] ===
+  //       "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  //   );
+
+  useEffect(() => {
+    setCategories(
+      resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+        (c) =>
+          c.card?.["card"]?.["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+      )
     );
+  }, [resId, resInfo]);
 
-  // console.log(resInfo, "hello", category);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
 
-  const categories =
-    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-      (c) =>
-        c.card?.["card"]?.["@type"] ===
-        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
-    );
+    if (!isChecked) {
+      const categoriesWithVegItems = categories?.map((category) => {
+        // Filter "VEG" items from the original category array
+        const vegItems = category?.card?.card?.itemCards
+          ?.flatMap((item) => item?.card?.info)
+          ?.filter((info) => info?.itemAttribute?.vegClassifier === "VEG");
 
-  // console.log(categories, "categories", resInfo?.cards[0]?.card?.card?.info);
+        return {
+          ...category.card,
+          card: {
+            ...category?.card,
+            card: {
+              ...category?.card?.card,
+              itemCards: (category?.card?.card?.itemCards || [])
+                .filter((_, index) => index < vegItems.length) // Filter out extra itemCards beyond vegItems length
+                .map((itemCard, index) => ({
+                  card: {
+                    ...itemCard.card,
+                    info: vegItems[index], // Assign vegItem or undefined
+                  },
+                })),
+            },
+          },
+        };
+      });
+
+      setCategories(categoriesWithVegItems);
+    } else {
+      setCategories(
+        resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+          (c) =>
+            c.card?.["card"]?.["@type"] ===
+            "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+        )
+      );
+    }
+  };
+
+  console.log(categories, "categories");
 
   return (
     <div className=" w-[90%] max-w-4xl mt-28 mx-auto mb-10 ">
@@ -81,7 +124,12 @@ const RestaurantMenu = () => {
                 Veg Only
               </p>
               <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  onChange={handleCheckboxChange}
+                  checked={isChecked}
+                />
                 <div class="w-9 h-5 bg-gray-200 rounded  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded after:h-4 after:w-4 after:transition-all  peer-checked:bg-green-600"></div>
               </label>
             </div>

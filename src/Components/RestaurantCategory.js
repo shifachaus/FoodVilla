@@ -17,37 +17,45 @@ const RestaurantCategory = ({
 
   // console.log(resInfo?.cards[0]?.card?.card?.info, "ITEMS", resId);
 
-  //   console.log(data);
+  // console.log(data?.itemCards, "kkk");
 
   function handleClick() {
     // console.log(showItems, "showItems");
     setShowIndex();
   }
 
+  console.log(data?.itemCards.length, "CATEGORY");
+
   return (
-    <div
-      className={index < dataLength - 1 && `border-b-[14px] border-neutral-100`}
-    >
-      {/* Header */}
-      <div
-        className="flex gap-2 justify-between mb-4 mt-4 cursor-pointer"
-        onClick={handleClick}
-      >
-        <p className="font-bold text-neutral-800 text-md">
-          {data?.title} ({data?.itemCards?.length})
-        </p>
-        <span>
-          <SlArrowDown className="text-sm text-neutral-500" />
-        </span>
-      </div>
-      {/* Body */}
-      {showItems && (
-        <ItemList
-          items={data?.itemCards}
-          restaurantInfo={resInfo?.cards[0]?.card?.card?.info}
-        />
+    <>
+      {data?.itemCards?.length > 0 && (
+        <div
+          className={
+            index < dataLength - 1 && `border-b-[14px] border-neutral-100`
+          }
+        >
+          {/* Header */}
+          <div
+            className="flex gap-2 justify-between mb-4 mt-4 cursor-pointer"
+            onClick={handleClick}
+          >
+            <p className="font-bold text-neutral-800 text-md">
+              {data?.title} ({data?.itemCards?.length})
+            </p>
+            <span>
+              <SlArrowDown className="text-sm text-neutral-500" />
+            </span>
+          </div>
+          {/* Body */}
+          {showItems && (
+            <ItemList
+              items={data?.itemCards}
+              restaurantInfo={resInfo?.cards[0]?.card?.card?.info}
+            />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
