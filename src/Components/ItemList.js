@@ -19,14 +19,14 @@ const ItemList = ({ items, restaurantInfo }) => {
   const [previousResID, setPreviousResID] = useState(null);
 
   const handleAddItem = (item) => {
-    console.log("restaurantData.id:", restaurantData?.id, resId);
+    console.log(item, "MENU");
     setSelectedItem(item);
 
     const data = {
       resID: restaurantInfo?.id,
       id: item?.id,
       itemName: item?.name,
-      price: item?.price,
+      price: item?.defaultPrice !== undefined ? item.defaultPrice : item?.price,
       veg: item?.itemAttribute,
     };
 

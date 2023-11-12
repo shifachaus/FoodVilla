@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./Components/Header";
 import Body from "./Components/Body";
-import About from "./Components/About";
+import Success from "./Components/Success";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Contact from "./Components/Contact";
 import Error from "./Components/Error";
@@ -15,7 +15,6 @@ import store from "./Utils/store";
 import Cart from "./Components/Cart";
 import Search from "./Components/Search";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Success from "./Components/Success";
 
 const Help = lazy(() => import("./Components/Help"));
 

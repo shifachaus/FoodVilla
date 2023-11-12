@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart, addItem, removeItem } from "../Utils/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { CDN__URL } from "../Utils/constants";
+import { useUserContext } from "../Utils/UserContext";
 
 const Cart = () => {
+  const { loginWithRedirect, myUser } = useUserContext();
   const cartItems = useSelector((store) => store.cart.item);
   const restaurantData = useSelector((store) => store.cart.restaurant);
 
@@ -27,6 +29,14 @@ const Cart = () => {
     // console.log(cur, "TOTAL");
     return acc + (cur?.price / 100) * cur.qty;
   }, 0);
+
+  const handleCheckout = () => {
+    if (myUser) {
+      navigate("/success");
+    } else {
+      loginWithRedirect();
+    }
+  };
 
   return (
     <main className=" mt-16 ">
@@ -134,7 +144,7 @@ const Cart = () => {
                   <div className="">
                     <button
                       className="bg-orange-400 text-white p-2 px-4 rounded w-32 "
-                      onClick={() => navigate("/success")}
+                      onClick={() => handleCheckout()}
                     >
                       Checkout
                     </button>
