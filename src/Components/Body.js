@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
-import UserContext from "../Utils/UserContext";
 
 import BannerContainer from "./BannerContainer";
 import FoodContainer from "./FoodContainer";
@@ -16,8 +15,6 @@ const Body = () => {
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [bannerList, setBannerList] = useState([]);
   const [foodList, setFoodList] = useState([]);
-
-  const { user, setUser } = useContext(UserContext);
 
   // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
   useEffect(() => {

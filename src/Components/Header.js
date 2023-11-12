@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import Logo from "../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
-import UserContext from "../Utils/UserContext";
+
 import { useSelector } from "react-redux";
 import { FiSearch } from "react-icons/fi";
 import { BiSolidOffer } from "react-icons/bi";
@@ -12,10 +12,12 @@ import { AiOutlineUser } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { CgMenuRight } from "react-icons/cg";
 import { RxCross1 } from "react-icons/rx";
+import SignIn from "./SignIn";
 
 const Header = () => {
   const [auth, setAuth] = useState(false);
-  const { user } = useContext(UserContext);
+  const [onHover, setOnHover] = useState(false);
+
   const [showMenu, setShowMenu] = useState(false);
 
   const onlineStatus = useOnlineStatus();
@@ -24,7 +26,7 @@ const Header = () => {
   const cartItems = useSelector((store) => store.cart.item);
 
   return (
-    <section className="flex  ">
+    <section className="flex  " onMouseLeave={() => setOnHover(false)}>
       <div className="fixed top-0 inset-x-0 z-50  bg-white  shadow-md">
         <div className=" flex justify-between items-center w-[90%] max-w-7xl mx-auto">
           <div className="logo__container">
@@ -48,8 +50,7 @@ const Header = () => {
                   to="/search"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <FiSearch className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Search
+                  <FiSearch className="text-xl text-neutral-500 " /> Search
                 </Link>
               </li>
               <li>
@@ -57,8 +58,7 @@ const Header = () => {
                   to="/"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <BiSolidOffer className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Offers
+                  <BiSolidOffer className="text-xl text-neutral-500 " /> Offers
                 </Link>
               </li>
 
@@ -67,30 +67,41 @@ const Header = () => {
                   to="/Help"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 " />{" "}
                   Help
                 </Link>
               </li>
 
+              <SignIn onHover={onHover} setOnHover={setOnHover} />
+
               <li>
                 <Link
-                  to="/"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                  to="/cart"
+                  className="relative flex gap-2 items-center text-neutral-700 text-md font-medium "
                 >
-                  <AiOutlineUser className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Sign In
+                  <span>
+                    <svg
+                      viewBox="-1 0 37 32"
+                      height="20"
+                      width="20"
+                      fill={cartItems?.length > 0 ? "#60b246 " : "white"}
+                      stroke-width="2px"
+                      stroke={cartItems?.length > 0 ? "#60b246 " : "#282c3f"}
+                    >
+                      <path d="M4.438 0l-2.598 5.11-1.84 26.124h34.909l-1.906-26.124-2.597-5.11z"></path>
+                    </svg>
+                    <span
+                      className={`absolute top-[.68rem] left-[.38rem] transform  -translate-y-1/2 ${
+                        cartItems?.length > 0 ? "text-white" : "text-black"
+                      } text-sm`}
+                    >
+                      {cartItems?.length}
+                    </span>
+                  </span>
+
+                  <span className="hover:text-orange-500">Cart</span>
                 </Link>
               </li>
-              <Link
-                to="/cart"
-                className="relative flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
-              >
-                <BsCart2 className="text-xl text-neutral-500 hover:text-orange-500" />
-                <span data-testid="cart " className="absolute -top-3 left-2">
-                  {cartItems?.length}{" "}
-                </span>
-                <span>Cart</span>
-              </Link>
             </ul>
           </nav>
 
@@ -107,15 +118,12 @@ const Header = () => {
               <RxCross1 className="text-xl text-neutral-500 " />
             </span>
             <ul className="flex flex-col gap-10 mt-16">
-              {/* <p data-testid="online-status">{onlineStatus ? "🟢" : "🔴"}</p> */}
-
               <li className="cursor-pointer ">
                 <Link
                   to="/search"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <FiSearch className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Search
+                  <FiSearch className="text-xl text-neutral-500 " /> Search
                 </Link>
               </li>
               <li>
@@ -123,40 +131,47 @@ const Header = () => {
                   to="/"
                   className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <BiSolidOffer className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Offers
+                  <BiSolidOffer className="text-xl text-neutral-500 " /> Offers
                 </Link>
               </li>
-
               <li>
                 <Link
                   to="/Help"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                  className="flex gap-2 items-center text-neutral-700 text-md font-medium"
                 >
-                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
+                  <IoMdHelpCircleOutline className="text-xl text-neutral-500 " />{" "}
                   Help
                 </Link>
               </li>
-
+              <SignIn onHover={onHover} setOnHover={setOnHover} />
               <li>
                 <Link
-                  to="/"
-                  className="flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
+                  to="/cart"
+                  className="relative flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
                 >
-                  <AiOutlineUser className="text-xl text-neutral-500 hover:text-orange-500" />{" "}
-                  Sign In
+                  <span>
+                    <svg
+                      viewBox="-1 0 37 32"
+                      height="20"
+                      width="20"
+                      fill={cartItems?.length > 0 ? "green " : "white"}
+                      stroke-width="2px"
+                      stroke={cartItems?.length > 0 ? "green " : "#282c3f"}
+                    >
+                      <path d="M4.438 0l-2.598 5.11-1.84 26.124h34.909l-1.906-26.124-2.597-5.11z"></path>
+                    </svg>
+                    <span
+                      className={`absolute top-[.68rem] left-[.38rem] transform  -translate-y-1/2 ${
+                        cartItems?.length > 0 ? "text-white" : "text-black"
+                      } text-sm`}
+                    >
+                      {cartItems?.length}
+                    </span>
+                  </span>
+
+                  <span className="hover:text-orange-500">Cart</span>
                 </Link>
               </li>
-              <Link
-                to="/cart"
-                className="relative flex gap-2 items-center text-neutral-700 text-md font-medium hover:text-orange-500"
-              >
-                <BsCart2 className="text-xl text-neutral-500 hover:text-orange-500 " />
-                <span data-testid="cart " className="absolute -top-3 left-2">
-                  {cartItems?.length}{" "}
-                </span>
-                <span>Cart</span>
-              </Link>
             </ul>
           </nav>
         </div>

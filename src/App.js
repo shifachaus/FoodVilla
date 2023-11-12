@@ -8,44 +8,37 @@ import Contact from "./Components/Contact";
 import Error from "./Components/Error";
 import RestaurantMenu from "./Components/RestaurantMenu";
 import Shimmer from "./Components/Shimmer";
-import UserContext from "./Utils/UserContext";
+import { UserProvider } from "./Utils/UserContext";
 import Footer from "./Components/Footer";
 import { Provider } from "react-redux";
 import store from "./Utils/store";
 import Cart from "./Components/Cart";
 import Search from "./Components/Search";
+import { Auth0Provider } from "@auth0/auth0-react";
+import Success from "./Components/Success";
 
 const Help = lazy(() => import("./Components/Help"));
 
 const AppLayoutComponent = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const data = {
-      name: "Shifa Chaus",
-      email: "shifa@gmail.com",
-    };
-
-    setUser(data);
-  }, []);
-
-  console.log(user);
-
   return (
-    <Provider store={store}>
-      <div className="app">
-        <UserContext.Provider
-          value={{
-            user: user,
-            setUser: setUser,
-          }}
-        >
-          <Header />
-          <Outlet />
-          <Footer />
-        </UserContext.Provider>
-      </div>
-    </Provider>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+      cacheLocation="localstorage"
+    >
+      <Provider store={store}>
+        <div className="app">
+          <UserProvider>
+            <Header />
+            <Outlet />
+            <Footer />
+          </UserProvider>
+        </div>
+      </Provider>
+    </Auth0Provider>
   );
 };
 
@@ -74,6 +67,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
       },
 
       {
