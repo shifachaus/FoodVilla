@@ -85,7 +85,7 @@ const Header = () => {
                       height="20"
                       width="20"
                       fill={cartItems?.length > 0 ? "#60b246 " : "white"}
-                      stroke-width="2px"
+                      strokeWidth="2px"
                       stroke={cartItems?.length > 0 ? "#60b246 " : "#282c3f"}
                     >
                       <path d="M4.438 0l-2.598 5.11-1.84 26.124h34.909l-1.906-26.124-2.597-5.11z"></path>
@@ -155,7 +155,7 @@ const Header = () => {
                       height="20"
                       width="20"
                       fill={cartItems?.length > 0 ? "green " : "white"}
-                      stroke-width="2px"
+                      strokeWidth="2px"
                       stroke={cartItems?.length > 0 ? "green " : "#282c3f"}
                     >
                       <path d="M4.438 0l-2.598 5.11-1.84 26.124h34.909l-1.906-26.124-2.597-5.11z"></path>
