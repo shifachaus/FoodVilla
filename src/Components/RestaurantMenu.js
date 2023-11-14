@@ -25,33 +25,24 @@ const RestaurantMenu = () => {
     setIsChecked(!isChecked);
 
     if (!isChecked) {
-      const categoriesWithVegItems = menuItems
-        ?.map((x) => x.itemCards?.map((x) => x.card?.info))
-        ?.flat()
-        ?.filter((i) => i?.itemAttribute?.vegClassifier === "VEG");
+      const categoriesWithVegItems = menuItems.map((category) => ({
+        ...category,
+        itemCards: category.itemCards
+          .filter(
+            (card) => card.card?.info?.itemAttribute?.vegClassifier === "VEG"
+          )
+          .map((card) => ({
+            ...card,
+            card: {
+              ...card.card,
+              info: {
+                ...card.card.info,
+              },
+            },
+          })),
+      }));
 
-      console.log(categoriesWithVegItems, ">>>>>", menuItems);
-
-      // return {
-      //   ...category.card,
-      //   card: {
-      //     ...category?.card,
-      //     card: {
-      //       ...category?.card?.card,
-      //       itemCards: (category?.card?.card?.itemCards || [])
-      //         .filter((_, index) => index < vegItems.length) // Filter out extra itemCards beyond vegItems length
-      //         .map((itemCard, index) => ({
-      //           card: {
-      //             ...itemCard.card,
-      //             info: vegItems[index], // Assign vegItem or undefined
-      //           },
-      //         })),
-      //     },
-      //   },
-      // };
-      // });
-
-      // setCategories(categoriesWithVegItems);
+      setCategories(categoriesWithVegItems);
     } else {
       setCategories(menuItems);
     }

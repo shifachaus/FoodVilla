@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 const ItemList = ({ items, restaurantInfo }) => {
   const { resId } = useParams();
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [previousResID, setPreviousResID] = useState(null);
   const { show } = useSelector((store) => store.cart);
 
   const dispatch = useDispatch();
