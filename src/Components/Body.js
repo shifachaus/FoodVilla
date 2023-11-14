@@ -8,36 +8,14 @@ import BannerContainer from "./BannerContainer";
 import FoodContainer from "./FoodContainer";
 import { SWIGGY_API_URL } from "../Utils/constants";
 import Filters from "./Filters";
+import useRestaurantData from "../Hooks/useRestaurantData";
 
 const Body = () => {
+  const [allRestaurants, filteredRes, bannerList, foodList] =
+    useRestaurantData(SWIGGY_API_URL);
+
   // Local State Variable - Super powerful variable
-  const [listOfRestaurants, setListOfRestraunt] = useState([]);
-  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
-  const [bannerList, setBannerList] = useState([]);
-  const [foodList, setFoodList] = useState([]);
-
-  // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const data = await fetch(SWIGGY_API_URL);
-
-    const json = await data.json();
-
-    setBannerList(json?.data?.cards[0]?.card?.card?.imageGridCards);
-    setFoodList(json?.data?.cards[1]?.card?.card?.imageGridCards);
-
-    console.log(json?.data, "DATA");
-    // Optional Chaining
-    setListOfRestraunt(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurant(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
+  const [filteredRestaurant, setFilteredRestaurant] = useState(null);
 
   const onlineStatus = useOnlineStatus();
 
@@ -66,10 +44,10 @@ const Body = () => {
 
       <Filters
         setFilteredRestaurant={setFilteredRestaurant}
-        listOfRestaurants={listOfRestaurants}
+        listOfRestaurants={allRestaurants}
       />
 
-      {listOfRestaurants?.length === 0 ? (
+      {allRestaurants?.length === 0 ? (
         <Shimmer
           box={12}
           heading="block h-3"
@@ -82,7 +60,10 @@ const Body = () => {
           data-testid="res-list"
           className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8 bg-white"
         >
-          {filteredRestaurant?.map((restaurant) => (
+          {(filteredRestaurant === null
+            ? filteredRes
+            : filteredRestaurant
+          )?.map((restaurant) => (
             // console.log(restaurant),
             <Link
               key={restaurant?.info?.id}

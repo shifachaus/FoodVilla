@@ -11,7 +11,7 @@ const RestaurantCard = ({ resData }) => {
   } = resData?.info;
 
   return (
-    <div className="mx-auto max-w-2xl  sm:py-3  flex flex-col gap-4 transition-all delay-75 duration-300 ease-linear hover:scale-95">
+    <div className="mx-auto max-w-2xl  sm:py-3  flex flex-col gap-4 transition-all delay-75 duration-300 ease-linear hover:scale-95 ">
       <div className="aspect-h-1 aspect-w-1 w-full  ">
         <img
           className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-2xl  "
@@ -40,8 +40,8 @@ const RestaurantCard = ({ resData }) => {
 export const withPromotedLabel = (RestaurantCard) => {
   return (props) => {
     return (
-      <div>
-        <label className="absolute bg-black text-white m-2 p-2 rounded-lg">
+      <div className="overflow-hidden">
+        <label className="absolute bg-green-600 text-white  px-2 py-1  z-10 text-xs top-1">
           promoted
         </label>
         <RestaurantCard {...props} />
