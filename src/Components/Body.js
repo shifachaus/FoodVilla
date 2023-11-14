@@ -29,7 +29,7 @@ const Body = () => {
     setBannerList(json?.data?.cards[0]?.card?.card?.imageGridCards);
     setFoodList(json?.data?.cards[1]?.card?.card?.imageGridCards);
 
-    console.log(json?.data?.cards[1]?.card?.card?.imageGridCards, "DATA");
+    console.log(json?.data, "DATA");
     // Optional Chaining
     setListOfRestraunt(
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants

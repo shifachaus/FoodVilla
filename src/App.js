@@ -18,6 +18,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 const Help = lazy(() => import("./Components/Help"));
 
+// Import statements...
+
 const AppLayoutComponent = () => {
   return (
     <Auth0Provider
@@ -30,10 +32,11 @@ const AppLayoutComponent = () => {
     >
       <Provider store={store}>
         <div className="app">
+          {/* Use CommonLayout for common elements */}
           <UserProvider>
             <Header />
+            {/* Only Body should be the outlet */}
             <Outlet />
-            <Footer />
           </UserProvider>
         </div>
       </Provider>
@@ -48,35 +51,76 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+
+        element: (
+          <Suspense fallback={<Shimmer />}>
+            <UserProvider>
+              <Header />
+              <Body />
+              <Footer />
+            </UserProvider>
+          </Suspense>
+        ),
       },
       {
         path: "/search",
-        element: <Search />,
+
+        element: (
+          <UserProvider>
+            <Header />
+            <Search />
+          </UserProvider>
+        ),
       },
       {
         path: "/contact",
-        element: <Contact />,
+
+        element: (
+          <UserProvider>
+            <Header />
+            <Contact />
+          </UserProvider>
+        ),
       },
       {
         path: "/restaurant/:resId",
-        element: <RestaurantMenu />,
-      },
 
+        element: (
+          <UserProvider>
+            <Header />
+            <RestaurantMenu />
+          </UserProvider>
+        ),
+      },
       {
         path: "/cart",
-        element: <Cart />,
+
+        element: (
+          <UserProvider>
+            <Header />
+            <Cart />
+          </UserProvider>
+        ),
       },
       {
         path: "/success",
-        element: <Success />,
-      },
 
+        element: (
+          <UserProvider>
+            <Header />
+            <Success />
+          </UserProvider>
+        ),
+      },
       {
         path: "/Help",
+
         element: (
           <Suspense fallback={<Shimmer />}>
-            <Help />
+            <UserProvider>
+              <Header />
+              <Help />
+            </UserProvider>
           </Suspense>
         ),
       },
