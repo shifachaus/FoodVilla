@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem, addResInfo, hidePopup } from "../Utils/cartSlice";
 import { useParams } from "react-router-dom";
-import useRestaurantMenu from "../Utils/useRestaurantMenu";
+import useRestaurantMenu from "../Hooks/useRestaurantMenu";
 
 const Popup = ({ item, restaurantInfo }) => {
   const { resId } = useParams();

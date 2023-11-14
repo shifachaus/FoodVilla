@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 // import { LOGO__URL } from "../Utils/constants";
 import Logo from "../assets/img/logo.png";
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../Utils/useOnlineStatus";
 
 import { useSelector } from "react-redux";
 import { FiSearch } from "react-icons/fi";
@@ -19,8 +18,6 @@ const Header = () => {
   const [onHover, setOnHover] = useState(false);
 
   const [showMenu, setShowMenu] = useState(false);
-
-  const onlineStatus = useOnlineStatus();
 
   //subscribing to store here
   const cartItems = useSelector((store) => store.cart.item);

@@ -2,7 +2,7 @@ import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../Utils/useOnlineStatus";
+import useOnlineStatus from "../Hooks/useOnlineStatus";
 
 import BannerContainer from "./BannerContainer";
 import FoodContainer from "./FoodContainer";
@@ -69,8 +69,6 @@ const Body = () => {
               key={restaurant?.info?.id}
               to={"/restaurant/" + restaurant?.info?.id}
             >
-              {/* promoted */}
-
               {restaurant?.info?.promoted ? (
                 <RestaurantCardPromoted resData={restaurant} />
               ) : (

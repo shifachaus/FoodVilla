@@ -1,7 +1,7 @@
 import React from "react";
 import ItemList from "./ItemList";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
-import useRestaurantMenu from "../Utils/useRestaurantMenu";
+import useRestaurantMenu from "../Hooks/useRestaurantMenu";
 import { useParams } from "react-router-dom";
 
 const RestaurantCategory = ({
@@ -13,18 +13,13 @@ const RestaurantCategory = ({
 }) => {
   const { resId } = useParams();
 
-  const resInfo = useRestaurantMenu(resId);
-
-  // console.log(resInfo?.cards[0]?.card?.card?.info, "ITEMS", resId);
-
-  // console.log(data?.itemCards, "kkk");
+  const [restaurant] = useRestaurantMenu(resId);
 
   function handleClick() {
-    // console.log(showItems, "showItems");
     setShowIndex();
   }
 
-  console.log(data?.itemCards.length, "CATEGORY");
+  // console.log(data?.title, "CATEGORY");
 
   return (
     <>
@@ -34,7 +29,6 @@ const RestaurantCategory = ({
             index < dataLength - 1 && `border-b-[14px] border-neutral-100`
           }
         >
-          {/* Header */}
           <div
             className="flex gap-2 justify-between mb-4 mt-4 cursor-pointer"
             onClick={handleClick}
@@ -46,13 +40,8 @@ const RestaurantCategory = ({
               <SlArrowDown className="text-sm text-neutral-500" />
             </span>
           </div>
-          {/* Body */}
-          {showItems && (
-            <ItemList
-              items={data?.itemCards}
-              restaurantInfo={resInfo?.cards[0]?.card?.card?.info}
-            />
-          )}
+
+          {showItems && <ItemList items={data} restaurantInfo={restaurant} />}
         </div>
       )}
     </>

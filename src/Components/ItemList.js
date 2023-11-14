@@ -6,20 +6,14 @@ import Popup from "./Popup";
 import { useParams } from "react-router-dom";
 
 const ItemList = ({ items, restaurantInfo }) => {
-  // console.log(items, "LIST");
   const { resId } = useParams();
   const [selectedItem, setSelectedItem] = useState(null);
   const { show } = useSelector((store) => store.cart);
 
   const dispatch = useDispatch();
   const restaurantData = useSelector((store) => store.cart.restaurant);
-  // console.log(restaurantData, restaurantInfo, "ll");
-
-  // Assuming you have a state variable to track the previous resID
-  const [previousResID, setPreviousResID] = useState(null);
 
   const handleAddItem = (item) => {
-    console.log(item, "MENU");
     setSelectedItem(item);
 
     const data = {
@@ -62,7 +56,7 @@ const ItemList = ({ items, restaurantInfo }) => {
 
   return (
     <div className=" ">
-      {items?.map((item) => {
+      {items?.itemCards?.map((item) => {
         return (
           <div
             key={item?.card?.info?.id}
