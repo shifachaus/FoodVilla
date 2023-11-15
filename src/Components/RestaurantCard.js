@@ -27,8 +27,8 @@ const RestaurantCard = ({ resData }) => {
             ⭐{avgRating} . {deliveryTime} minutes
           </p>
           <p className=" text-sm md:text-md font-light text-gray-500">
-            {" "}
-            {cuisines.join(", ")}
+            {console.log(cuisines.slice(0, 2).join(", "), "ll")}
+            {cuisines.slice(0, 2).join(", ")}
           </p>
         </div>
       </div>
