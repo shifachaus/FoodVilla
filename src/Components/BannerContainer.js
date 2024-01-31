@@ -71,13 +71,7 @@ const BannerContainer = ({ bannerList }) => {
 
       {bannerList.length === 0 ? (
         <div>
-          <Shimmer
-            heading="hidden "
-            box={3}
-            style="md:h-48 h-32 w-full rounded-3xl mx-auto"
-            hide="hidden"
-            grid="sm:grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-          />
+          <Shimmer heading="hidden " box={4} />
           <div ref={sliderRef} className="keen-slider flex gap-4 ">
             {bannerList.map((item) => {
               return (

@@ -59,15 +59,7 @@ const Search = () => {
       </div>
 
       {showShimmer ? (
-        <Shimmer
-          box={3}
-          heading="block h-3"
-          style="h-2 w-96 "
-          hide="hidden h-2"
-          icon={<FiSearch className="text-neutral-500 mx-2" />}
-          grid="sm:grid-cols-1 gap-4  "
-          border="h-2 w-full mx-auto border-b  border-gray-300"
-        />
+        <Shimmer box={4} />
       ) : results?.length > 0 ? (
         <SearchResult results={results} />
       ) : (

@@ -65,13 +65,7 @@ const FoodContainer = ({ foodList }) => {
 
       {foodList?.length == 0 ? (
         <div>
-          <Shimmer
-            box={6}
-            heading="hidden "
-            style="h-32 w-32 mx-auto"
-            hide="hidden"
-            grid="sm:grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
-          />
+          <Shimmer box={4} />
           <div ref={sliderRef} className="keen-slider flex gap-4 ">
             {foodList?.info?.map((item) => {
               return (
