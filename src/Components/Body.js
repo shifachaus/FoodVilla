@@ -25,6 +25,7 @@ const Body = () => {
     );
   }
 
+  //HOC
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
   return (
@@ -48,13 +49,7 @@ const Body = () => {
       />
 
       {allRestaurants?.length === 0 ? (
-        <Shimmer
-          box={12}
-          heading="block h-3"
-          style="h-20 sm:h-40 md:h-56 lg:h-60  w-full mx-auto"
-          hide="block h-2"
-          grid="sm:grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-        />
+        <Shimmer box={12} />
       ) : (
         <section
           data-testid="res-list"
@@ -64,7 +59,6 @@ const Body = () => {
             ? filteredRes
             : filteredRestaurant
           )?.map((restaurant) => (
-            // console.log(restaurant),
             <Link
               key={restaurant?.info?.id}
               to={"/restaurant/" + restaurant?.info?.id}

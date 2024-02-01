@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import SearchResult from "./SearchResult";
-import Shimmer from "./Shimmer";
+import { ShimmerSerach } from "./Shimmer";
 import { SEARCH__API } from "../Utils/constants";
 
 const Search = () => {
@@ -14,10 +14,15 @@ const Search = () => {
     const getSearchResult = async () => {
       const data = await fetch(SEARCH__API + inputSearch);
       const json = await data.json();
+      console.log(json?.data?.suggestions, "SER");
       setResults(json?.data?.suggestions);
     };
 
-    getSearchResult();
+    const debounceInput = setTimeout(() => {
+      getSearchResult();
+    }, 500);
+
+    return () => clearTimeout(debounceInput);
   }, [inputSearch]);
 
   useEffect(() => {
@@ -59,7 +64,7 @@ const Search = () => {
       </div>
 
       {showShimmer ? (
-        <Shimmer box={4} />
+        <ShimmerSerach box={3} />
       ) : results?.length > 0 ? (
         <SearchResult results={results} />
       ) : (

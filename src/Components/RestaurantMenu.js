@@ -51,13 +51,7 @@ const RestaurantMenu = () => {
   return (
     <div className=" w-[90%] max-w-4xl mt-28 mx-auto mb-10 ">
       {restaurant === null ? (
-        <Shimmer
-          box={2}
-          style="h-20 sm:h-40 md:h-56 lg:h-60  w-full mx-auto"
-          hide="block h-2"
-          heading="block h-3"
-          grid="sm:grid-cols-1 gap-6 md:grid-cols-2 "
-        />
+        <Shimmer box={2} />
       ) : (
         <div className="w-[90%] max-w-4xl  mx-auto mt-6 mb-6">
           <div className="pt-2 pb-4 flex justify-between  border-b-2 border-dashed ">
@@ -106,7 +100,6 @@ const RestaurantMenu = () => {
 
           <div data-testid="menu">
             {(categories === null ? menuItems : categories)?.map((c, index) => {
-              // console.log(c);
               return (
                 <RestaurantCategory
                   key={c?.title}
@@ -115,7 +108,6 @@ const RestaurantMenu = () => {
                   index={index}
                   showItems={index === showIndex ? true : false}
                   setShowIndex={() => {
-                    // console.log(index),
                     setShowIndex(index === showIndex ? null : index);
                   }}
                 />

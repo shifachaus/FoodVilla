@@ -39,7 +39,7 @@ const Cart = () => {
   };
 
   return (
-    <main className=" mt-16 ">
+    <section className=" mt-16 ">
       <div className=" w-[90%] max-w-7xl my-0 mx-auto  mb-4 ">
         {cartItems.length === 0 && (
           <div className="flex flex-col items-center gap-6 h-screen justify-center ">
@@ -155,7 +155,7 @@ const Cart = () => {
           </>
         )}
       </div>
-    </main>
+    </section>
   );
 };
 

@@ -4,10 +4,9 @@ import { CDN__URL } from "../Utils/constants";
 const SearchResult = ({ results }) => {
   return (
     <div className="ml-4">
-      {results?.map((item) => {
-        console.log(item);
+      {results?.map((item, index) => {
         return (
-          <div className="flex gap-5 hover:bg-sky-50 items-center">
+          <div key={index} className="flex gap-5 hover:bg-sky-50 items-center">
             <div>
               <img
                 className="w-16 h-20  object-cover object-center  rounded-md py-2 "
