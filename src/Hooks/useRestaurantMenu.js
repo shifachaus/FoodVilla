@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { MENU__API } from "../Utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMenuItems, addRestaurantInfo } from "../Utils/menuSlice";
 
 const useRestaurantMenu = (resId) => {
   const dispatch = useDispatch();
 
+  const { restaurant } = useSelector((store) => store.menu);
+
   useEffect(() => {
-    getRestaurantInfo();
-  }, [resId]);
+    if (restaurant?.id !== resId) {
+      getRestaurantInfo();
+    }
+  }, [resId, restaurant?.id]);
 
   async function getRestaurantInfo() {
     try {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { BiSolidStar } from "react-icons/bi";
@@ -11,8 +11,10 @@ import Shimmer from "./Shimmer";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-  const { restaurant, menuItems } = useSelector((store) => store.menu);
+
   useRestaurantMenu(resId);
+
+  const { restaurant, menuItems } = useSelector((store) => store.menu);
 
   const [showIndex, setShowIndex] = useState(null);
   const { isChecked, categories, handleCheckboxChange } = useCheckboxFilter(
