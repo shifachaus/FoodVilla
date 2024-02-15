@@ -3,35 +3,10 @@ import { FiSearch } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import SearchResult from "./SearchResult";
 import { ShimmerSerach } from "./Shimmer";
-import { SEARCH__API } from "../Utils/constants";
+import useSearch from "../Hooks/useSearch";
 
 const Search = () => {
-  const [showShimmer, setShowShimmer] = useState(true);
-  const [inputSearch, setInputSearch] = useState("");
-  const [results, setResults] = useState([]);
-
-  useEffect(() => {
-    const getSearchResult = async () => {
-      const data = await fetch(SEARCH__API + inputSearch);
-      const json = await data.json();
-      console.log(json?.data?.suggestions, "SER");
-      setResults(json?.data?.suggestions);
-    };
-
-    const debounceInput = setTimeout(() => {
-      getSearchResult();
-    }, 500);
-
-    return () => clearTimeout(debounceInput);
-  }, [inputSearch]);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowShimmer(false);
-    }, 2000);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
+  const { showShimmer, inputSearch, setInputSearch, results } = useSearch();
 
   return (
     <section
