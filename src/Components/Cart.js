@@ -26,7 +26,6 @@ const Cart = () => {
   };
 
   let total = cartItems?.reduce((acc, cur) => {
-    // console.log(cur, "TOTAL");
     return acc + (cur?.price / 100) * cur.qty;
   }, 0);
 

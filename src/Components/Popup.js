@@ -9,7 +9,7 @@ const Popup = ({ item, restaurantInfo }) => {
 
   // Custom hook
   const resInfo = useRestaurantMenu(resId);
-  console.log(resInfo, "POPUP");
+
   const dispatch = useDispatch();
 
   const closePopup = () => {

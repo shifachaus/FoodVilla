@@ -4,12 +4,13 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     show: false,
-    item: [],
-    restaurant: {},
+    item: JSON.parse(localStorage.getItem("cart")) || [],
+    restaurant: JSON.parse(localStorage.getItem("restaurantInfo")) || {},
   },
   reducers: {
     addResInfo: (state, action) => {
       state.restaurant = action.payload;
+      localStorage.setItem("restaurantInfo", JSON.stringify(state.restaurant));
     },
 
     addItem: (state, action) => {
@@ -24,15 +25,20 @@ const cartSlice = createSlice({
               ? { ...exists, qty: exists?.qty + 1 }
               : r
           );
+
+          localStorage.setItem("cart", JSON.stringify(state.item));
         } else {
           state.item.push({ ...action.payload, qty: 1 });
+          localStorage.setItem("cart", JSON.stringify(state.item));
         }
 
         // Remove elements with different resID
         state.item = state.item.filter((item) => item.resID === resID);
+        localStorage.setItem("cart", JSON.stringify(state.item));
       } else {
         // If resID is different, clear the cart
         state.item = [];
+        localStorage.setItem("cart", JSON.stringify(state.item));
       }
     },
 
@@ -43,10 +49,21 @@ const cartSlice = createSlice({
         state.item = state.item.map((r) =>
           r?.id === action.payload?.id ? { ...exists, qty: exists.qty - 1 } : r
         );
+
+        localStorage.setItem("cart", JSON.stringify(state.item));
       }
 
       if (exists?.qty === 1) {
         state.item = state.item.filter((r) => r?.id !== action.payload?.id);
+        localStorage.setItem("cart", JSON.stringify(state.item));
+      }
+
+      if (state.item.length === 0) {
+        state.restaurant = {};
+        localStorage.setItem(
+          "restaurantInfo",
+          JSON.stringify(state.restaurant)
+        );
       }
     },
     clearCart: (state) => {
@@ -55,6 +72,9 @@ const cartSlice = createSlice({
         restaurant: {},
         show: false,
       });
+
+      localStorage.removeItem("cart");
+      localStorage.removeItem("restaurantInfo");
     },
 
     showPopup: (state, action) => {

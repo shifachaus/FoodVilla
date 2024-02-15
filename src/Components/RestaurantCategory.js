@@ -1,8 +1,9 @@
-import React from "react";
-import ItemList from "./ItemList";
-import { SlArrowDown, SlArrowUp } from "react-icons/sl";
-import useRestaurantMenu from "../Hooks/useRestaurantMenu";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { SlArrowDown } from "react-icons/sl";
+import useRestaurantMenu from "../Hooks/useRestaurantMenu";
+import ItemList from "./ItemList";
+import useAddItemToCart from "../Hooks/useAddItemToCart";
 
 const RestaurantCategory = ({
   data,
@@ -13,11 +14,17 @@ const RestaurantCategory = ({
 }) => {
   const { resId } = useParams();
 
-  const [restaurant] = useRestaurantMenu(resId);
+  const { restaurant } = useSelector((store) => store.menu);
+  useRestaurantMenu(resId);
 
   function handleClick() {
     setShowIndex();
   }
+
+  const { handleAddItem, selectedItem, show } = useAddItemToCart(
+    restaurant,
+    resId
+  );
 
   return (
     <>
@@ -39,7 +46,15 @@ const RestaurantCategory = ({
             </span>
           </div>
 
-          {showItems && <ItemList items={data} restaurantInfo={restaurant} />}
+          {showItems && (
+            <ItemList
+              items={data}
+              restaurantInfo={restaurant}
+              handleAddItem={handleAddItem}
+              selectedItem={selectedItem}
+              show={show}
+            />
+          )}
         </div>
       )}
     </>

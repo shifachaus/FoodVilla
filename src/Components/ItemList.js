@@ -1,63 +1,15 @@
-import React, { useState } from "react";
 import { CDN__URL } from "../Utils/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem, addResInfo, showPopup } from "../Utils/cartSlice";
 import Popup from "./Popup";
-import { useParams } from "react-router-dom";
 
-const ItemList = ({ items, restaurantInfo }) => {
-  const { resId } = useParams();
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  const [previousResID, setPreviousResID] = useState(null);
-  const { show } = useSelector((store) => store.cart);
-
-  const dispatch = useDispatch();
-  const restaurantData = useSelector((store) => store.cart.restaurant);
-
-  const handleAddItem = (item) => {
-    setSelectedItem(item);
-
-    const data = {
-      resID: restaurantInfo?.id,
-      id: item?.id,
-      itemName: item?.name,
-      price: item?.defaultPrice !== undefined ? item.defaultPrice : item?.price,
-      veg: item?.itemAttribute,
-    };
-
-    if (restaurantData?.id === undefined || restaurantData?.id === resId) {
-      console.log(
-        {
-          id: restaurantInfo?.id,
-          resName: restaurantInfo?.name,
-          areaName: restaurantInfo?.areaName,
-          imageID: restaurantInfo?.cloudinaryImageId,
-        },
-        "DATA"
-      );
-      dispatch(
-        addResInfo({
-          id: restaurantInfo?.id,
-          resName: restaurantInfo?.name,
-          areaName: restaurantInfo?.areaName,
-          imageID: restaurantInfo?.cloudinaryImageId,
-        })
-      );
-      // Update the previousResID
-      setPreviousResID(data.resID);
-
-      dispatch(addItem(data));
-    } else if (
-      restaurantData?.id !== undefined &&
-      restaurantData?.id !== resId
-    ) {
-      dispatch(showPopup(true));
-    }
-  };
-
+const ItemList = ({
+  items,
+  restaurantInfo,
+  handleAddItem,
+  selectedItem,
+  show,
+}) => {
   return (
-    <div className=" ">
+    <div>
       {items?.itemCards?.map((item) => {
         return (
           <div
@@ -73,7 +25,6 @@ const ItemList = ({ items, restaurantInfo }) => {
                   : item?.card?.info?.defaultPrice / 100}
               </p>
               <p className="text-xs text-neutral-400">
-                {" "}
                 {item?.card?.info?.description}
               </p>
             </div>
@@ -82,8 +33,7 @@ const ItemList = ({ items, restaurantInfo }) => {
                 <img
                   src={CDN__URL + item?.card?.info?.imageId}
                   alt="image"
-                  // className="w-full h-28  object-contain object-center  rounded-2xl py-2 "
-                  className="w-full h-28  object-cover object-center  rounded-md  "
+                  className="w-full h-28 object-cover object-center rounded-md"
                 />
               )}
               <div className="absolute left-1/2 transform -translate-x-1/2 bottom-1">
@@ -99,7 +49,6 @@ const ItemList = ({ items, restaurantInfo }) => {
           </div>
         );
       })}
-
       {show && <Popup item={selectedItem} restaurantInfo={restaurantInfo} />}
     </div>
   );
