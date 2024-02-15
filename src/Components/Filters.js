@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFilteredRestaurantList,
+  addHighRatedRestaurants,
+} from "../Utils/restaurantSlice";
 
-const Filters = ({ setFilteredRestaurant, listOfRestaurants }) => {
-  const [select, setSelect] = useState(false);
+const Filters = () => {
   const [selectInput, setSelectInput] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const { allRestaurants, isFilterActive } = useSelector(
+    (store) => store.restaurants
+  );
+
+  const dispatch = useDispatch();
+
   return (
     <div className="flex flex-wrap items-center gap-2 mb-6">
       <div className="flex   ">
@@ -22,12 +33,13 @@ const Filters = ({ setFilteredRestaurant, listOfRestaurants }) => {
             data-testid="search-btn"
             className=" border-r border-t border-b rounded-r-full  border-neutral-300  cursor-pointer py-2 px-2 "
             onClick={() => {
-              const filteredList = listOfRestaurants?.filter((reataurant) => {
-                return reataurant?.info?.name
-                  .toLowerCase()
-                  .includes(searchText.toLowerCase());
-              });
-              setFilteredRestaurant(filteredList);
+              dispatch(
+                addFilteredRestaurantList({
+                  allRestaurants,
+                  searchText: searchText,
+                })
+              );
+
               setSelectInput(true);
             }}
           >
@@ -38,8 +50,13 @@ const Filters = ({ setFilteredRestaurant, listOfRestaurants }) => {
             data-testid="search-btn"
             className=" border-r border-t border-b rounded-r-full  border-neutral-300  cursor-pointer py-2 px-2 "
             onClick={() => {
-              setFilteredRestaurant(listOfRestaurants);
-              setSearchText("");
+              dispatch(
+                addFilteredRestaurantList({
+                  allRestaurants,
+                  searchText: "",
+                })
+              );
+
               setSelectInput(false);
             }}
           >
@@ -49,26 +66,28 @@ const Filters = ({ setFilteredRestaurant, listOfRestaurants }) => {
       </div>
       <div
         className={` ${
-          select && "border-neutral-700 bg-neutral-100"
+          isFilterActive && "border-neutral-700 bg-neutral-100"
         } flex gap-1 items-center text-neutral-600 text-sm border border-neutral-300  rounded-full cursor-pointer  p-2  `}
       >
         <button
           onClick={() => {
-            const filteredList = listOfRestaurants?.filter(
-              (res) => res?.info?.avgRating > 4.0
+            dispatch(
+              addHighRatedRestaurants({ allRestaurants, isFilterActive: true })
             );
-            setFilteredRestaurant(filteredList);
-            setSelect(true);
           }}
         >
           Ratings 4.0+
         </button>
 
-        {select && (
+        {isFilterActive && (
           <span
             onClick={() => {
-              setFilteredRestaurant(listOfRestaurants);
-              setSelect(false);
+              dispatch(
+                addHighRatedRestaurants({
+                  allRestaurants,
+                  isFilterActive: false,
+                })
+              );
             }}
           >
             <RxCross1 className="text-md text-neutral-600 " />

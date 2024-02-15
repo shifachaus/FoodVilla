@@ -1,16 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBannerList,
+  addFilteredRestaurants,
+  addFoodList,
+  addRestaurants,
+} from "../Utils/restaurantSlice";
 
 const useRestaurantData = (API_URL) => {
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [filteredRes, setFilteredRes] = useState([]);
-  const [bannerList, setBannerList] = useState([]);
-  const [foodList, setFoodList] = useState([]);
+  const { allRestaurants, filteredRes, bannerList, foodList } = useSelector(
+    (store) => store.restaurants
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getRestaurants();
+    !allRestaurants &&
+      !filteredRes &&
+      !bannerList &&
+      !foodList &&
+      getRestaurants();
   }, []);
 
-  // async function getRestaurant to fetch API data
   async function getRestaurants() {
     try {
       const response = await fetch(API_URL);
@@ -35,25 +46,21 @@ const useRestaurantData = (API_URL) => {
 
         const resData = await checkJsonData(json);
 
-        setAllRestaurants(resData);
-        setFilteredRes(resData);
+        dispatch(addFilteredRestaurants(resData));
+        dispatch(addRestaurants(resData));
 
-        console.log(
-          json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-            ?.restaurants
-        );
-
-        setBannerList(json?.data?.cards[0]?.card?.card?.imageGridCards);
-        setFoodList(
-          json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-            ?.restaurants
+        dispatch(addFoodList(json?.data?.cards[0]?.card?.card?.imageGridCards));
+        dispatch(
+          addBannerList(
+            json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+              ?.restaurants
+          )
         );
       }
     } catch (error) {
       console.error(error);
     }
   }
-  return [allRestaurants, filteredRes, bannerList, foodList];
 };
 
 export default useRestaurantData;

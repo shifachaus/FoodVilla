@@ -12,9 +12,9 @@ import { title } from "process";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-  // const [resInfo, setresinfo] = useState([]);
-  const [restaurant, menuItems] = useRestaurantMenu(resId);
-  console.log(menuItems);
+
+  const { restaurant, menuItems } = useSelector((store) => store.menu);
+  useRestaurantMenu(resId);
 
   const [isChecked, setIsChecked] = useState(false);
   const [categories, setCategories] = useState(null);

@@ -1,5 +1,4 @@
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Hooks/useOnlineStatus";
@@ -9,14 +8,14 @@ import FoodContainer from "./FoodContainer";
 import { SWIGGY_API_URL } from "../Utils/constants";
 import Filters from "./Filters";
 import useRestaurantData from "../Hooks/useRestaurantData";
+import { useSelector } from "react-redux";
 
 const Body = () => {
-  const [allRestaurants, filteredRes, bannerList, foodList] =
-    useRestaurantData(SWIGGY_API_URL);
+  const { allRestaurants, filteredRes, filteredRestaurant } = useSelector(
+    (store) => store.restaurants
+  );
 
-  // Local State Variable - Super powerful variable
-  const [filteredRestaurant, setFilteredRestaurant] = useState(null);
-
+  useRestaurantData(SWIGGY_API_URL);
   const onlineStatus = useOnlineStatus();
 
   if (!onlineStatus) {
@@ -36,17 +35,14 @@ const Body = () => {
         </h3>
       )}
 
-      <FoodContainer foodList={bannerList} />
-      <BannerContainer bannerList={foodList} />
+      <FoodContainer />
+      <BannerContainer />
 
       <h2 className="font-extrabold text-xl sm:text-2xl mb-6">
         Restaurants with online food delivery in Mumbai
       </h2>
 
-      <Filters
-        setFilteredRestaurant={setFilteredRestaurant}
-        listOfRestaurants={allRestaurants}
-      />
+      <Filters />
 
       {allRestaurants?.length === 0 ? (
         <Shimmer box={12} />

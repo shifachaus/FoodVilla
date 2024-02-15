@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { MENU__API } from "../Utils/constants";
+import { useDispatch } from "react-redux";
+import { addMenuItems, addRestaurantInfo } from "../Utils/menuSlice";
 
 const useRestaurantMenu = (resId) => {
+  const dispatch = useDispatch();
+
   const [restaurant, setRestaurant] = useState(null); // use useState to store restaurant data
   const [menuItems, setMenuItems] = useState([]); // use useState to store restaurant Menu Item data
 
@@ -29,6 +33,7 @@ const useRestaurantMenu = (resId) => {
                   "type.googleapis.com/swiggy.presentation.food.v2.Restaurant"
             )?.card?.info || null;
         setRestaurant(restaurantData);
+        dispatch(addRestaurantInfo(restaurantData));
 
         // Set menu item data
         const menuItemsData =
@@ -54,10 +59,13 @@ const useRestaurantMenu = (resId) => {
           }
         });
         setMenuItems(menuItemsData);
+        dispatch(addMenuItems(menuItemsData));
       }
     } catch (err) {
       setMenuItems([]);
       setRestaurant(null);
+      dispatch(addRestaurantInfo(null));
+      dispatch(addMenuItems(null));
       console.error(err);
     }
   }

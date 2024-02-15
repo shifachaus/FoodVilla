@@ -6,8 +6,11 @@ import { useKeenSlider } from "keen-slider/react";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import Banner from "./Banner";
 import RestaurantCard from "./RestaurantCard";
+import { useSelector } from "react-redux";
 
-const BannerContainer = ({ bannerList }) => {
+const BannerContainer = () => {
+  const { bannerList } = useSelector((store) => store.restaurants);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sliderRef, instanceRef] = useKeenSlider({
     mode: "free",

@@ -4,8 +4,11 @@ import "keen-slider/keen-slider.min.css";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import Banner from "./Banner";
 import Shimmer from "./Shimmer";
+import { useSelector } from "react-redux";
 
-const FoodContainer = ({ foodList }) => {
+const FoodContainer = () => {
+  const { foodList } = useSelector((store) => store.restaurants);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sliderRef, instanceRef] = useKeenSlider({
     mode: "free",

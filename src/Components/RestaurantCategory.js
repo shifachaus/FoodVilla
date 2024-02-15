@@ -19,8 +19,6 @@ const RestaurantCategory = ({
     setShowIndex();
   }
 
-  // console.log(data?.title, "CATEGORY");
-
   return (
     <>
       {data?.itemCards?.length > 0 && (
