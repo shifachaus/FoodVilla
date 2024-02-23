@@ -44,7 +44,7 @@ const Body = () => {
 
       <Filters />
 
-      {allRestaurants?.length === 0 ? (
+      {allRestaurants === null ? (
         <Shimmer box={12} />
       ) : (
         <section
